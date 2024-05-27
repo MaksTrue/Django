@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+        <title>Главная страница</title>
+{% endblock %}
+
+{% block content %}
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <!-- Post preview-->
+                    {% for item in object_list %}
+                    <div class="post-preview">
+                        <a href="{% url 'parsing:posts' pk=item.pk %}">
+                            <h2 class="post-title">{{item.name}}</h2>
+                            <h3 class="post-subtitle">{{item.category}}</h3>
+                        </a>
+                    </div>
+                    <!-- Divider-->
+                    <hr class="my-4" />
+                    {% endfor %}
+                    <hr class="my-4" />
+                    <!-- Pager-->
+                    <div class="pagination">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.previous_page_number }}"> <-- </a>
+                            {% endif %}
+
+                            <span class="current">
+                                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+                            </span>
+
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}"> --> </a>
+                            {% endif %}
+                        </span>
+                    </div>
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-outline-primary btn-lg" href="{% url 'parsing:parse_form' %}">Форма парсинга</a></div>
+                    <div class="d-flex justify-content-end mb-4"><a class="btn btn-outline-primary btn-lg" href="{% url 'parsing:create' %}">Написать пост</a></div>
+                </div>
+            </div>
+{% endblock %}
